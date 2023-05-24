@@ -1,4 +1,5 @@
 import '../style.css';
+import Swal from 'sweetalert2';
 
 function createCurrency(currencyName, value) {
     const mainPath = document.querySelector('main div');
@@ -73,12 +74,19 @@ btnSearch.addEventListener('click', () => {
             const newDiv = document.createElement('div');
             const newH2 = document.createElement('h2');
 
-            validationOfData(inputValue, currency.rates);
+            validationOfData(inputValue.toUpperCase(), currency.rates);
             newDiv.classList.add('container');
             newH2.innerText = `Valores referentes a 1 ${currency.base}`;
             mainPath.appendChild(newH2);
             mainPath.appendChild(newDiv);
             setCoins(currency.rates);
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.message,
+                footer: 'Tente novamente',
+            });
+        });
 });
